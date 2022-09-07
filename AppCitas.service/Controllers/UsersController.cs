@@ -15,9 +15,18 @@ public class UsersController : ControllerBase
     {
         _context = context;
     }
+    
+    //GET api/users
     [HttpGet]
     public ActionResult<IEnumerable<AppUser>> GetUsers()
     {
         return _context.Users.ToList();
+    }
+
+    //GET api/users/id
+    [HttpGet("{id}")]
+    public ActionResult<AppUser> GetUserById(int id)
+    {
+        return _context.Users.Find(id);
     }
 }
