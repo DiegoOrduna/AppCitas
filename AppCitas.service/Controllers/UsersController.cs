@@ -2,13 +2,11 @@
 using AppCitas.service.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SQLitePCL;
+using Microsoft.EntityFrameworkCore;
 
 namespace AppCitas.service.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
-public class UsersController : ControllerBase
+public class UsersController : BaseApiController
 {
     private readonly DataContext _context;
     public UsersController(DataContext context)
@@ -18,15 +16,15 @@ public class UsersController : ControllerBase
     
     //GET api/users
     [HttpGet]
-    public ActionResult<IEnumerable<AppUser>> GetUsers()
+    public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
     {
-        return _context.Users.ToList();
+        return await _context.Users.ToListAsync();
     }
 
     //GET api/users/id
     [HttpGet("{id}")]
-    public ActionResult<AppUser> GetUserById(int id)
+    public async Task<ActionResult<AppUser>> GetUserById(int id)
     {
-        return _context.Users.Find(id);
+        return await _context.Users.FindAsync(id);
     }
 }
