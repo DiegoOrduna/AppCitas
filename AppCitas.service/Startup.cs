@@ -47,13 +47,9 @@ public class Startup
         }
 
         app.UseHttpsRedirection();
-
         app.UseRouting();
-
         app.UseCors(p => p.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
-
         app.UseAuthentication();
-
         app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
