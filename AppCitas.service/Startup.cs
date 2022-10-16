@@ -1,8 +1,12 @@
 using AppCitas.service.Data;
 using AppCitas.service.Interfaces;
 using AppCitas.service.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace AppCitas;
 
@@ -30,6 +34,17 @@ public class Startup
 
         services.AddControllers();
         services.AddCors();
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"])),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
         services.AddSwaggerGen(c =>
         {
@@ -52,6 +67,8 @@ public class Startup
         app.UseRouting();
 
         app.UseCors(p => p.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+
+        app.UseAuthentication();
 
         app.UseAuthorization();
 
