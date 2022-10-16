@@ -2,6 +2,7 @@ using AppCitas.service.Data;
 using AppCitas.service.Extensions;
 using AppCitas.service.Interfaces;
 using AppCitas.service.Services;
+using AppCitas.Service.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -45,7 +46,7 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPIv5 v1"));
         }
-
+        app.UseMiddleware<ExceptionMiddleware>();
         app.UseHttpsRedirection();
         app.UseRouting();
         app.UseCors(p => p.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
