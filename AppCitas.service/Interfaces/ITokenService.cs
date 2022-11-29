@@ -1,6 +1,6 @@
-﻿using AppCitas.service.Entities;
+﻿using AppCitas.Service.Entities;
 
-namespace AppCitas.service.Interfaces;
+namespace AppCitas.Service.Interfaces;
 
 public interface ITokenService
 {

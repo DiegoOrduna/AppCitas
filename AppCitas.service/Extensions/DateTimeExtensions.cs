@@ -1,4 +1,4 @@
-﻿namespace AppCitas.service.Extensions;
+﻿namespace AppCitas.Service.Extensions;
 
 public static class DateTimeExtensions
 {
@@ -6,7 +6,9 @@ public static class DateTimeExtensions
     {
         var today = DateTime.Today;
         var age = today.Year - dob.Year;
+
         if (dob.Date > today.AddYears(-age)) age--;
+
         return age;
     }
 }

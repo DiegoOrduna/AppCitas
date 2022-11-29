@@ -1,4 +1,4 @@
-using AppCitas.service.Data;
+using AppCitas.Service.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace AppCitas;
@@ -7,7 +7,6 @@ public class Program
 {
     public static async Task Main(string[] args)
     {
-        //CreateHostBuilder(args).Build().Run();
         var host = CreateHostBuilder(args).Build();
         using var scope = host.Services.CreateScope();
         var services = scope.ServiceProvider;

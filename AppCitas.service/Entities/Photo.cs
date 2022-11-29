@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AppCitas.service.Entities;
+namespace AppCitas.Service.Entities;
 
 [Table("Photos")]
 public class Photo
@@ -11,5 +11,4 @@ public class Photo
     public string PublicId { get; set; }
     public AppUser AppUser { get; set; }
     public int AppUserId { get; set; }
-
 }

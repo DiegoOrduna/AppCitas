@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace AppCitas.service.Controllers;
+namespace AppCitas.Service.Controllers;
 
 [ApiController]
 [Route("[controller]")]

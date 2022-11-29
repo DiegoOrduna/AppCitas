@@ -4,12 +4,12 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:44344",
-      "sslPort": 44392
+      "applicationUrl": "http://localhost:44444",
+      "sslPort": 44303
     }
   },
   "profiles": {
-    "AppCitas.service": {
+    "AppCitas.Service": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
