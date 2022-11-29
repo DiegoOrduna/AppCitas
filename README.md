@@ -1,2 +1,2 @@
 # AppCitas
-Proyecto citas para materia de Servicios Web
+Curso de Servicios Web para ICI de noveno semestre.
