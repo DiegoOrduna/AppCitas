@@ -1,18 +1,13 @@
-﻿using DatingApp.Api.DTOs;
-using DatingAppUaa.UnitTests.Helpers;
-using Microsoft.AspNetCore.Http;
+﻿using AppCitas.Service.DTOs;
+using AppCitas.Service.Entities;
+using AppCitas.UnitTests.Helpers;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
-using Xunit;
 
-namespace DatingAppUaa.UnitTests.Pruebas
+namespace AppCitas.UnitTests.Pruebas
 {
     public class LikesControllerTests
     {
@@ -26,9 +21,27 @@ namespace DatingAppUaa.UnitTests.Pruebas
         {
             _client = TestHelper.Instance.Client;
         }
+        [Theory]
+        [InlineData("OK", "lisa", "Pa$$w0rd", "rosa")]
+        public async Task AddLike_OK(string statusCode, string username, string password, string userLiked)
+        {
+            // Arrange
+            var user = await LoginHelper.LoginUser(username, password);
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+
+
+            requestUri = $"{apiRoute}/" + userLiked;
+
+            // Act
+            httpResponse = await _client.PostAsync(requestUri, httpContent);
+            _client.DefaultRequestHeaders.Authorization = null;
+            // Assert
+            Assert.Equal(Enum.Parse<HttpStatusCode>(statusCode, true), httpResponse.StatusCode);
+            Assert.Equal(statusCode, httpResponse.StatusCode.ToString());
+        }
 
         [Theory]
-        [InlineData("NotFound", "lois", "Pa$$w0rd","a")]
+        [InlineData("NotFound", "tanner", "Pa$$w0rd","no")]
         public async Task AddLike_NotFound(string statusCode, string username, string password,string userLiked)
         {
             // Arrange
@@ -48,7 +61,7 @@ namespace DatingAppUaa.UnitTests.Pruebas
 
 
         [Theory]
-        [InlineData("BadRequest", "lois", "Pa$$w0rd", "lois")]
+        [InlineData("BadRequest", "rosa", "Pa$$w0rd", "rosa")]
         public async Task AddLike_BadRequest(string statusCode, string username, string password, string userLiked)
         {
             // Arrange
@@ -66,27 +79,10 @@ namespace DatingAppUaa.UnitTests.Pruebas
             Assert.Equal(statusCode, httpResponse.StatusCode.ToString());
         }
 
-        [Theory]
-        [InlineData("OK", "lois", "Pa$$w0rd", "todd")]
-        public async Task AddLike_OK(string statusCode, string username, string password, string userLiked)
-        {
-            // Arrange
-            var user = await LoginHelper.LoginUser(username, password);
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
-
-
-            requestUri = $"{apiRoute}/" + userLiked;
-
-            // Act
-            httpResponse = await _client.PostAsync(requestUri, httpContent);
-            _client.DefaultRequestHeaders.Authorization = null;
-            // Assert
-            Assert.Equal(Enum.Parse<HttpStatusCode>(statusCode, true), httpResponse.StatusCode);
-            Assert.Equal(statusCode, httpResponse.StatusCode.ToString());
-        }
+        
 
         [Theory]
-        [InlineData("BadRequest", "lois", "Pa$$w0rd", "todd")]
+        [InlineData("BadRequest", "rosa", "Pa$$w0rd", "tanner")]
         public async Task AddLike_BadRequest2(string statusCode, string username, string password, string userLiked)
         {
             // Arrange
@@ -98,6 +94,7 @@ namespace DatingAppUaa.UnitTests.Pruebas
 
             // Act
             httpResponse = await _client.PostAsync(requestUri, httpContent);
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
             httpResponse = await _client.PostAsync(requestUri, httpContent);
 
             _client.DefaultRequestHeaders.Authorization = null;
@@ -107,20 +104,27 @@ namespace DatingAppUaa.UnitTests.Pruebas
         }
 
         [Theory]
-        [InlineData("OK", "todd", "Pa$$w0rd")]
-        public async Task GetUserLikes_OK(string statusCode, string username, string password)
+        [InlineData("OK", "lisa", "Pa$$w0rd", "tanner", "likedby")]
+        public async Task GetUserLikes_OK(string statusCode, string username, string password, string userliked, string predicate)
         {
             // Arrange
             var user = await LoginHelper.LoginUser(username, password);
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
 
+            requestUri = $"{apiRoute}/" + userliked;
 
+            httpResponse = await _client.PostAsync(requestUri, httpContent);
+            _client.DefaultRequestHeaders.Authorization = null;
 
-            requestUri = $"{apiRoute}" + "?predicated=likedBy";
+            var userLiked = await LoginHelper.LoginUser(userliked, password);
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userLiked.Token);
+
+            requestUri = $"{apiRoute}" + "?predicate=" + predicate;
 
             // Act
             httpResponse = await _client.GetAsync(requestUri);
             _client.DefaultRequestHeaders.Authorization = null;
+
             // Assert
             Assert.Equal(Enum.Parse<HttpStatusCode>(statusCode, true), httpResponse.StatusCode);
             Assert.Equal(statusCode, httpResponse.StatusCode.ToString());

@@ -1,20 +1,10 @@
-﻿using DatingApp.Api.DTOs;
-using DatingAppUaa.UnitTests.Helpers;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
+﻿using AppCitas.UnitTests.Helpers;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
-using Xunit;
 
-namespace DatingAppUaa.UnitTests.Pruebas
+namespace AppCitas.UnitTests.Pruebas
 {
     public class BuggyControllerTests
     {
@@ -31,7 +21,7 @@ namespace DatingAppUaa.UnitTests.Pruebas
         }
 
         [Theory]
-        [InlineData("OK", "karen", "Pa$$w0rd")]
+        [InlineData("OK", "rosa", "Pa$$w0rd")]
         public async Task GetSecret_OK(string statusCode, string username, string password)
         {
             // Arrange

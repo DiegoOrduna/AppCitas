@@ -4,9 +4,8 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
-using Windows.Storage;
 
-namespace DatingAppUaa.UnitTests.Pruebas
+namespace AppCitas.UnitTests.Pruebas
 {
     public class AccountControllerTests
     {
@@ -22,7 +21,7 @@ namespace DatingAppUaa.UnitTests.Pruebas
         }
 
         [Theory]
-        [InlineData("BadRequest", "lisa", "KnownAs", "Gender", "2000-01-01", "City", "Country", "Password")]
+        [InlineData("BadRequest", "rosa", "KnownAs", "Gender", "2000-01-01", "City", "Country", "Password")]
         public async Task Register_Fail(string statusCode, string username, string knownAs, string gender, DateTime dateOfBirth, string city, string country, string password)
         {
             // Arrange
@@ -48,7 +47,7 @@ namespace DatingAppUaa.UnitTests.Pruebas
         }
 
         [Theory]
-        [InlineData("OK", "arturo", "KnownAs", "Gender", "2000-01-01", "City", "Country", "Pa$$w0rd")]
+        [InlineData("OK", "jaime25", "KnownAs", "Gender", "2000-01-01", "City", "Country", "Pa$$w0rd")]
         public async Task Register_ReturnOk(string statusCode, string username, string knownAs, string gender, DateTime dateOfBirth, string city, string country, string password)
         {
             // Arrange
@@ -75,7 +74,7 @@ namespace DatingAppUaa.UnitTests.Pruebas
         }
 
         [Theory]
-        [InlineData("Unauthorized", "lisa","Password")]
+        [InlineData("Unauthorized", "roy","Password")]
         public async Task Login_Fail(string statusCode, string username, string password)
         {
             // Arrange

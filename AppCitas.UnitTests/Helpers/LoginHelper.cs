@@ -1,4 +1,4 @@
-﻿using AppCitas.Api.DTOs;
+﻿using AppCitas.Service.DTOs;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DatingAppUaa.UnitTests.Helpers
+namespace AppCitas.UnitTests.Helpers
 {
     public class LoginHelper
     {

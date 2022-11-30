@@ -1,6 +1,5 @@
-﻿using DatingApp.Api.DTOs;
-using DatingAppUaa.UnitTests.Helpers;
-using Microsoft.AspNetCore.Http;
+﻿using AppCitas.Service.DTOs;
+using AppCitas.UnitTests.Helpers;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -12,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace DatingAppUaa.UnitTests.Pruebas
+namespace AppCitas.UnitTests.Pruebas
 {
     public class MessagesControllerTests
     {
@@ -27,7 +26,7 @@ namespace DatingAppUaa.UnitTests.Pruebas
             _client = TestHelper.Instance.Client;
         }
         [Theory]
-        [InlineData("BadRequest", "lois", "Pa$$w0rd", "lois","Hola")]
+        [InlineData("BadRequest", "rosa", "Pa$$w0rd", "rosa","hola")]
         public async Task CreateMessage_BadRequest(string statusCode, string username, string password, string recipientUsername,string content)
         {
             // Arrange
@@ -50,7 +49,7 @@ namespace DatingAppUaa.UnitTests.Pruebas
             Assert.Equal(statusCode, httpResponse.StatusCode.ToString());
         }
         [Theory]
-        [InlineData("NotFound", "lisa", "Pa$$w0rd", "pedritosola", "Hola")]
+        [InlineData("NotFound", "tanner", "Pa$$w0rd", "lisa", "hola2")]
         public async Task CreateMessage_NotFound(string statusCode, string username, string password, string recipientUsername, string content)
         {
             // Arrange
@@ -74,7 +73,7 @@ namespace DatingAppUaa.UnitTests.Pruebas
             Assert.Equal(statusCode, httpResponse.StatusCode.ToString());
         }
         [Theory]
-        [InlineData("OK", "porter", "Pa$$w0rd", "lisa", "Hola")]
+        [InlineData("OK", "rosa", "Pa$$w0rd", "tanner", "hi")]
         public async Task CreateMessage_OK(string statusCode, string username, string password, string recipientUsername, string content)
         {
             // Arrange
@@ -99,7 +98,7 @@ namespace DatingAppUaa.UnitTests.Pruebas
         }
 
         [Theory]
-        [InlineData("OK", "todd", "Pa$$w0rd", "ruthie", "Hola")]
+        [InlineData("OK", "rosa", "Pa$$w0rd", "lisa", "hola")]
         public async Task GetMessagesForUser_OK(string statusCode, string username, string password, string recipientUsername, string content)
         {
             // Arrange
@@ -117,7 +116,7 @@ namespace DatingAppUaa.UnitTests.Pruebas
         }
 
         [Theory]
-        [InlineData("OK", "skinner", "Pa$$w0rd", "Outbox")]
+        [InlineData("OK", "berry", "Pa$$w0rd", "Outbox")]
         public async Task GetMessagesForUserFromQuery_OK(string statusCode, string username, string password, string container)
         {
             // Arrange
@@ -135,7 +134,7 @@ namespace DatingAppUaa.UnitTests.Pruebas
         }
 
         [Theory]
-        [InlineData("OK", "ruthie", "Pa$$w0rd", "lisa")]
+        [InlineData("OK", "louise", "Pa$$w0rd", "lisa")]
         public async Task GetMessagesThread_OK(string statusCode, string username, string password, string user2)
         {
             // Arrange
@@ -151,10 +150,42 @@ namespace DatingAppUaa.UnitTests.Pruebas
             Assert.Equal(Enum.Parse<HttpStatusCode>(statusCode, true), httpResponse.StatusCode);
             Assert.Equal(statusCode, httpResponse.StatusCode.ToString());
         }
+        [Theory]
+        [InlineData("Unauthorized", "lisa", "Pa$$w0rd", "tanner", "hola", "rosa")]
+        public async Task DeleteMessage_Unauthorized(string statusCode, string username, string password, string recipientUsername, string content, string unauth)
+        {
+            // Arrange
+            var user = await LoginHelper.LoginUser(username, password);
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
 
+            var messageDto = new MessageDto
+            {
+                RecipientUsername = recipientUsername,
+                Content = content
+            };
+            registeredObject = GetRegisterObject(messageDto);
+            httpContent = GetHttpContent(registeredObject);
+            requestUri = $"{apiRoute}";
+            var result = await _client.PostAsync(requestUri, httpContent);
+            var messageJson = await result.Content.ReadAsStringAsync();
+            _client.DefaultRequestHeaders.Authorization = null;
+            var message = messageJson.Split(',');
+            var id = message[0].Split("\"")[2].Split(":")[1];
+            requestUri = $"{apiRoute}/" + id;
+
+            user = await LoginHelper.LoginUser(unauth, password);
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+
+            // Act
+            httpResponse = await _client.DeleteAsync(requestUri);
+            _client.DefaultRequestHeaders.Authorization = null;
+            // Assert
+            Assert.Equal(Enum.Parse<HttpStatusCode>(statusCode, true), httpResponse.StatusCode);
+            Assert.Equal(statusCode, httpResponse.StatusCode.ToString());
+        }
 
         [Theory]
-        [InlineData("OK", "davis", "Pa$$w0rd", "karen", "Hola")]
+        [InlineData("OK", "hewitt", "Pa$$w0rd", "rosa", "Hi")]
         public async Task DeleteMessage_OK(string statusCode, string username, string password, string recipientUsername, string content)
         {
             // Arrange
@@ -189,39 +220,7 @@ namespace DatingAppUaa.UnitTests.Pruebas
             Assert.Equal(statusCode, httpResponse.StatusCode.ToString());
         }
 
-        [Theory]
-        [InlineData("Unauthorized", "mayo", "Pa$$w0rd", "lisa", "Hola", "margo")]
-        public async Task DeleteMessage_Unauthorized(string statusCode, string username, string password, string recipientUsername, string content,string unauth)
-        {
-            // Arrange
-            var user = await LoginHelper.LoginUser(username, password);
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
-
-            var messageDto = new MessageDto
-            {
-                RecipientUsername = recipientUsername,
-                Content = content
-            };
-            registeredObject = GetRegisterObject(messageDto);
-            httpContent = GetHttpContent(registeredObject);
-            requestUri = $"{apiRoute}";
-            var result = await _client.PostAsync(requestUri, httpContent);
-            var messageJson = await result.Content.ReadAsStringAsync();
-            _client.DefaultRequestHeaders.Authorization = null;
-            var message = messageJson.Split(',');
-            var id = message[0].Split("\"")[2].Split(":")[1];
-            requestUri = $"{apiRoute}/" + id;
-
-            user = await LoginHelper.LoginUser(unauth, password);
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
-
-            // Act
-            httpResponse = await _client.DeleteAsync(requestUri);
-            _client.DefaultRequestHeaders.Authorization = null;
-            // Assert
-            Assert.Equal(Enum.Parse<HttpStatusCode>(statusCode, true), httpResponse.StatusCode);
-            Assert.Equal(statusCode, httpResponse.StatusCode.ToString());
-        }
+       
 
 
         #region Privated methods

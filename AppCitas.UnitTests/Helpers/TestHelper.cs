@@ -1,4 +1,6 @@
-﻿using AppCitas.Service;
+﻿using AppCitas.test;
+using AppCitas;
+using AppCitas.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DatingAppUaa.UnitTests.Helpers
+namespace AppCitas.UnitTests.Helpers
 {
     public sealed class TestHelper
     {
