@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppCitas.service", "AppCitas.service.csproj", "{DF3E19D7-63C0-46AE-AC65-793BC1B17AAD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppCitas.UnitTests", "..\AppCitas.UnitTests\AppCitas.UnitTests.csproj", "{1E0E6BF8-7CE8-44E1-B2BA-3BCA680B90E5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DF3E19D7-63C0-46AE-AC65-793BC1B17AAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF3E19D7-63C0-46AE-AC65-793BC1B17AAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF3E19D7-63C0-46AE-AC65-793BC1B17AAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF3E19D7-63C0-46AE-AC65-793BC1B17AAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E0E6BF8-7CE8-44E1-B2BA-3BCA680B90E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E0E6BF8-7CE8-44E1-B2BA-3BCA680B90E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E0E6BF8-7CE8-44E1-B2BA-3BCA680B90E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E0E6BF8-7CE8-44E1-B2BA-3BCA680B90E5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {19F9C856-173F-4B24-A9C3-548F94B2EF62}
+	EndGlobalSection
+EndGlobal
