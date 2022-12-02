@@ -25,7 +25,7 @@ namespace AppCitas.UnitTests.Pruebas
         }
 
         [Theory]
-        [InlineData("NoContent", "lisa", "Pa$$w0rd", "b.jpeg")]
+        [InlineData("NoContent", "lisa", "Pa$$w0rd", "b.jpg")]
         public async Task SetMainPhoto_OK(string statusCode, string username, string password, string file)
         {
             // Arrange
@@ -195,7 +195,7 @@ namespace AppCitas.UnitTests.Pruebas
             Assert.Equal(statusCode, httpResponse.StatusCode.ToString());
         }
         [Theory]
-        [InlineData("Created", "lisa", "Pa$$w0rd", "a.jpeg")]
+        [InlineData("Created", "lisa", "Pa$$w0rd", "a.jpg")]
         public async Task AddPhoto_Created(string statusCode, string username, string password, string file)
         {
             // Arrange
